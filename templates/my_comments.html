@@ -10,7 +10,6 @@
         <table class="table table-striped align-middle">
             <thead>
                 <tr>
-                    <th>預約編號</th>
                     <th>食品名稱</th>
                     <th>購買數量</th>
                     <th>狀態</th>
@@ -20,7 +19,6 @@
             <tbody>
             {% for r in reservations %}
                 <tr>
-                    <td>{{ r.id }}</td>
                     <td>{{ r.food_name }}</td>
                     <td>{{ r.quantity }}</td>
                     <td>{{ r.status }}</td>
