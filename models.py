@@ -9,6 +9,10 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
 
+    __table_args__ = {
+        "sqlite_autoincrement": True
+    }
+
     username = db.Column(
         db.String(50),
         unique=True,
@@ -42,6 +46,10 @@ class User(db.Model):
 class Food(db.Model):
     __tablename__ = "foods"
 
+    __table_args__ = {
+        "sqlite_autoincrement": True
+    }
+
     id = db.Column(db.Integer, primary_key=True)
 
     name = db.Column(
@@ -73,6 +81,10 @@ class Reservation(db.Model):
     __tablename__ = "reservations"
 
     id = db.Column(db.Integer, primary_key=True)
+    
+    __table_args__ = {
+        "sqlite_autoincrement": True
+    }
 
     food_id = db.Column(
         db.Integer,
