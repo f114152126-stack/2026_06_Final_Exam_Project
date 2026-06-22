@@ -245,7 +245,6 @@ def comments():
     # 根據這些食品 ID 找出對應的預約紀錄
     reservations = Reservation.query.filter(
         Reservation.food_id.in_(seller_food_ids),
-        Reservation.user_id == seller_id,
         Reservation.comments_status == "已評論"
     ).all()
 
