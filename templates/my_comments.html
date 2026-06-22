@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">我的評論</h2>
+
+<div class="card shadow" style="min-height: 60vh; height: auto;">
+    <div class="card-body">
+        {% if reservations %}
+        <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                    <th>預約編號</th>
+                    <th>食品名稱</th>
+                    <th>購買數量</th>
+                    <th>狀態</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for r in reservations %}
+                <tr>
+                    <td>{{ r.id }}</td>
+                    <td>{{ r.food_name }}</td>
+                    <td>{{ r.quantity }}</td>
+                    <td>{{ r.status }}</td>
+
+                    {% if r.comments_status == "未評論" %}
+                        <td class="bg-white" style="width: 150px;">
+                            <button type="button" 
+                                    class="btn btn-success w-100" 
+                                    style="max-width: 130px;"
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#commentModal{{ r.id }}">
+                                評論
+                            </button>
+
+                            <div class="modal fade" id="commentModal{{ r.id }}" tabindex="-1" aria-labelledby="commentModalLabel{{ r.id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="commentModalLabel{{ r.id }}">發表評論 - {{ r.food_name }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form action="/user/comment/{{ r.id }}" method="POST">
+                                            <div class="modal-body text-start">
+                                                <div class="mb-3">
+                                                    <label for="content{{ r.id }}" class="form-label">評論內容：</label>
+                                                    <textarea class="form-control" id="content{{ r.id }}" name="content" rows="4" placeholder="請輸入您對此食品的評論..." required></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                                                <button type="submit" class="btn btn-success">確認送出</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    {% else %}
+                        <td class="bg-white" style="width: 150px;">
+                            <button type="button" 
+                                    class="btn btn-info text-white w-100" 
+                                    style="max-width: 130px;"
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#viewCommentModal{{ r.id }}">
+                                查看評論
+                            </button>
+
+                            <div class="modal fade" id="viewCommentModal{{ r.id }}" tabindex="-1" aria-labelledby="viewCommentModalLabel{{ r.id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="viewCommentModalLabel{{ r.id }}">您的評論 - {{ r.food_name }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        
+                                        <form action="/user/edit_comment/{{ r.id }}" method="POST">
+                                            <div class="modal-body text-start">
+                                                <div class="mb-3">
+                                                    <label for="viewContent{{ r.id }}" class="form-label">評論內容：</label>
+                                                    <textarea class="form-control" 
+                                                            id="viewContent{{ r.id }}" 
+                                                            name="content" 
+                                                            rows="4" 
+                                                            readonly>{{ r.comment.content if r.comment else '' }}</textarea>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="modal-footer" id="modalFooter{{ r.id }}">
+                                                <button type="button" class="btn btn-warning text-white" onclick="enableEdit('{{ r.id }}')">編輯</button>
+                                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">確定</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <div class="alert alert-warning m-3">尚無預約紀錄</div>
+        {% endif %}
+    </div>
+
+    <button class="btn btn-secondary"
+            type="button"
+            style="width: 100px; margin: 20px auto;"
+            onclick="window.location.href='/user/dashboard'">
+        返回列表
+    </button>
+</div>
+
+<script>
+function enableEdit(reservationId) {
+    // 1. 找到 textarea，移除 readonly 屬性，並讓游標自動跳進去
+    const textarea = document.getElementById('viewContent' + reservationId);
+    textarea.removeAttribute('readonly');
+    textarea.focus();
+
+    // 2. 找到按鈕區塊，動態替換成「取消」與「確認儲存」
+    const footer = document.getElementById('modalFooter' + reservationId);
+    footer.innerHTML = `
+        <button type="button" class="btn btn-secondary" onclick="window.location.reload()">取消</button>
+        <button type="submit" class="btn btn-success">確認修改</button>
+    `;
+}
+</script>
+{% endblock %}

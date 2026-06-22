@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>每月營運報表</h2>
+
+<div class="card shadow" style="margin-bottom: 20px;">
+
+    <div class="card-body">
+
+        <h4>
+            {{ current_year }} 年
+            {{ current_month }} 月
+        </h4>
+
+        <hr>
+
+        <p>
+            本月預約數：
+            {{ reservation_count }}
+        </p>
+
+        <p>
+            完成領取：
+            {{ completed_count }}
+        </p>
+
+        <p>
+            完成率：
+            {{ complete_rate }}%
+        </p>
+
+        <p>
+            評論數：
+            {{ comment_count }}
+        </p>
+
+        <p>
+            評論率：
+            {{ comment_rate }}%
+        </p>
+
+        <p>
+            成功售出剩食：
+            {{ saved_food_count }} 份
+        </p>
+
+    </div>
+    
+    <button class="btn btn-secondary"
+            type="button"
+            style="width: 100px; margin: 20px auto;"
+            onclick="window.location.href='/seller/premium'">
+        返回列表
+    </button>
+
+</div>
+
+<div style="display: flex; justify-content: space-between;">
+    <div class="card shadow mb-4">
+        <div class="card-body" style="width: 40vh;">
+            <h4 class="text-center">完成率分析</h4>
+            <div style="height:300px; display: flex; justify-content: center; align-items: center;">
+                <canvas id="completeChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="card shadow mb-4">
+        <div class="card-body" style="width: 40vh;">
+            <h4 class="text-center">評論率分析</h4>
+            <div style="height:300px; display: flex; justify-content: center; align-items: center;">
+                <canvas id="commentChart"></canvas>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+const completeRate =  Number("{{ complete_rate }}");
+const incompleteRate = 100 - completeRate;
+
+new Chart(
+    document.getElementById(
+        'completeChart'
+    ),
+    {
+        type: 'pie',
+
+        data: {
+            labels: [
+                '已完成',
+                '未完成'
+            ],
+
+            datasets: [{
+                data: [
+                    completeRate,
+                    incompleteRate
+                ],
+                backgroundColor: [
+                    '#28a745',
+                    '#dc3545'
+                ]
+            }]
+        },
+
+        options: {
+            responsive: true,
+
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    }
+);
+
+const commentRate = Number("{{ comment_rate }}");
+const noCommentRate = 100 - commentRate;
+
+new Chart(
+    document.getElementById(
+        'commentChart'
+    ),
+    {
+        type: 'pie',
+
+        data: {
+
+            labels: [
+                '已評論',
+                '未評論'
+            ],
+
+            datasets: [{
+                data: [
+                    commentRate,
+                    noCommentRate
+                ],
+
+                backgroundColor: [
+                    '#0d6efd',
+                    '#ffc107'
+                ]
+            }]
+        },
+
+        options: {
+            responsive: true,
+
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    }
+);
+
+</script>
+
+{% endblock %}

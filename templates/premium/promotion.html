@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">
+    活動推廣
+</h2>
+
+<div class="card shadow mb-4">
+
+    <div class="card-body">
+
+        <form method="POST">
+
+            <div class="mb-3">
+
+                <label>
+                    活動標題
+                </label>
+
+                <input
+                    type="text"
+                    name="title"
+                    class="form-control"
+                    required
+                    placeholder="輸入活動標題">
+
+            </div>
+
+            <div class="mb-3">
+
+                <label>
+                    活動內容
+                </label>
+
+                <textarea
+                    name="content"
+                    rows="4"
+                    class="form-control"
+                    required
+                    placeholder="輸入活動內容"></textarea>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col">
+
+                    <label>
+                        開始日期
+                    </label>
+
+                    <input
+                        type="datetime-local"
+                        id="start_date"
+                        name="start_date"
+                        class="form-control"
+                        required>
+
+                </div>
+
+                <div class="col">
+
+                    <label>
+                        結束日期
+                    </label>
+
+                    <input
+                        type="datetime-local"
+                        id="end_date"
+                        name="end_date"
+                        class="form-control"
+                        required>
+
+                </div>
+
+            </div>
+
+            <div class="mt-4" style="display: flex; justify-content: center;">
+                <button
+                    class="btn btn-success"
+                    type="submit"
+                    style="width: 100px; margin: 20px">
+                    發布活動
+                </button>
+                <button 
+                    class="btn btn-secondary"
+                    type="button"
+                    style="width: 100px; margin: 20px"
+                    onclick="window.location.href='/seller/premium'">
+                    返回列表
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<div class="card shadow">
+
+    <div class="card-body">
+
+        <h4>已發布活動</h4>
+
+        <hr>
+        {% if promotions|length == 0 %}
+            <p>
+                目前沒有已發布的活動。
+            </p>
+        {% else %}
+            <div class="activity-scroll" style="max-height:40vh; overflow-y:auto;">
+                {% for p in promotions %}
+                <div class="border rounded p-3 mb-3">
+                    <div class="d-flex justify-content-between">
+                        <div class="d-relative">
+                            <h5>{{ p.title }}</h5>
+                            <p>{{ p.content }}</p>
+                            <small>
+                                {{ p.start_date }}
+                                ~
+                                {{ p.end_date }}
+                            </small>
+                        </div>
+                        {% if p.end_date >= today %}
+                            <div style="width: 100px;" class="d-relative ">
+                                <span style="max-width: 100px; pointer-events: none;" class="btn btn-success w-100 h-30">
+                                    活動中
+                                </span>
+                                <a href="/seller/premium/delete_promotion/{{ p.id }}"
+                                    class="btn btn-danger w-100"
+                                    style="margin-top:5px;"
+                                    onclick="return confirm('確定要結束此活動？')">
+                                    結束活動
+                                </a>
+                            </div>
+                        {% else %}
+                            <a style="max-width: 100px;" class="btn btn-secondary w-100 h-50"
+                                href="/seller/premium/delete_promotion/{{ p.id }}"
+                                onclick="return confirm('確定要結束此活動？')">
+                                已結束
+                            </a>
+                        {% endif %}
+                    </div>
+                    
+                    
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

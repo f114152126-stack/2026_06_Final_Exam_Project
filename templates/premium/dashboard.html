@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>
+    Premium 控制台
+</h2>
+
+<div class="row mt-4">
+
+    <div class="col-md-4">
+
+        <div class="card shadow" style=" margin-bottom: 20px;">
+
+            <div class="card-body text-center">
+
+                <h5>
+                    剩食分析
+                </h5>
+
+                <a
+                    href="/seller/premium/analytics"
+                    class="btn btn-primary">
+
+                    進入
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card shadow">
+
+            <div class="card-body text-center">
+
+                <h5>
+                    每月報表
+                </h5>
+
+                <a
+                    href="/seller/premium/reports"
+                    class="btn btn-primary">
+
+                    進入
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card shadow">
+
+            <div class="card-body text-center">
+
+                <h5>
+                    活動推廣
+                </h5>
+
+                <a
+                    href="/seller/premium/promotion"
+                    class="btn btn-primary">
+
+                    進入
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div style="text-align: center; margin-top: 20px;">
+    <button class="btn btn-secondary"
+            type="button"
+            style="width: 150px; margin: 20px auto;"
+            onclick="window.location.href='/seller/dashboard'">
+        返回管理後台
+    </button>
+</div>
+
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">
+    評論名單
+</h2>
+
+<div class="card shadow" style="min-height: 60vh; height: auto;">
+
+    <div class="card-body">
+
+        <table class="table table-striped align-middle">
+
+            <thead>
+
+                <tr>
+
+                    <th>預約編號</th>
+                    <th>食品名稱</th>
+                    <th>用戶名稱</th>
+                    <th>購買數量</th> </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for r in reservations %}
+
+                <tr>
+
+                    <td>{{ r.id }}</td>
+
+                    <td>{{ r.food_name }}</td>
+
+                    <td>{{ r.user_name }}</td>
+
+                    <td>{{ r.quantity }}</td>
+
+                    <td style="width: 150px;">
+
+                        <button type="button" 
+                                class="btn btn-success w-100" 
+                                style="max-width: 130px;"
+                                data-bs-toggle="modal" 
+                                data-bs-target="#sellerViewCommentModal{{ r.id }}">
+                            查看評論
+                        </button>
+
+                        <div class="modal fade" id="sellerViewCommentModal{{ r.id }}" tabindex="-1" aria-labelledby="sellerViewCommentModalLabel{{ r.id }}" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="sellerViewCommentModalLabel{{ r.id }}">用戶評論 - {{ r.food_name }}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    
+                                    <div class="modal-body text-start">
+                                        <div class="mb-3">
+                                            <p class="text-muted small">來自用戶：<strong>{{ r.user_name }}</strong></p>
+                                            <label for="sellerViewContent{{ r.id }}" class="form-label">評論內容：</label>
+                                            <textarea class="form-control" 
+                                                      id="sellerViewContent{{ r.id }}" 
+                                                      rows="4" 
+                                                      readonly>{{ r.comment.content if r.comment else '尚無評論內容' }}</textarea>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">確認</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+            
+        </table>
+
+    </div>
+
+    <button class="btn btn-secondary"
+            type="button"
+            style="width: 100px; margin: 20px auto;"
+            onclick="window.location.href='/seller/dashboard'">
+        返回列表
+    </button>
+
+</div>
+
+{% endblock %}

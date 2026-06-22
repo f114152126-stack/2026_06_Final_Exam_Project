@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-md-8">
+
+        <div class="card shadow">
+
+            <div class="card-body">
+
+                <h3 class="mb-4">
+                    新增剩食
+                </h3>
+
+                <form method="POST">
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            食品名稱
+                        </label>
+
+                        <input type="text"
+                               name="name"
+                               class="form-control"
+                               required>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            食品描述
+                        </label>
+
+                        <textarea
+                            name="description"
+                            rows="4"
+                            class="form-control"></textarea>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            數量
+                        </label>
+
+                        <input type="number"
+                               name="quantity"
+                               min="1"
+                               class="form-control"
+                               required>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            領取時間
+                        </label>
+
+                        <input type="text"
+                               name="pickup_time"
+                               class="form-control"
+                               placeholder="例如：18:00~20:00"
+                               required>
+
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-success"
+                                type="submit"
+                                style="width: 70px; margin: 20px 0px;">
+                            新增
+                        </button>
+                        <button class="btn btn-secondary"
+                                type="button"
+                                style="width: 100px; margin: 20px 0px;"
+                                onclick="window.location.href='/seller/dashboard'">
+                            返回列表
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

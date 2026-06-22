@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h2>商家管理後台: {% if user.city %}{{ user.city }} {{ user.district }}{%else%}未設定地區{% endif %}</h2>
+
+    <div>
+        <a href="/seller/reservations"
+           class="btn btn-primary">
+            預約名單
+        </a>
+
+        <a href="/seller/comments"
+           class="btn btn-primary">
+            評論名單
+        </a>
+
+        <a href="/seller/add_food"
+           class="btn btn-success">
+            新增剩食
+        </a>
+    </div>
+
+</div>
+
+<div class="card shadow" style=" height: 60vh;">
+
+    <div class="card-body">
+
+        <table class="table table-hover">
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>名稱</th>
+                    <th>數量</th>
+                    <th>領取時間</th>
+                    <th>操作</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for food in foods %}
+
+                <tr>
+
+                    <td>{{ food.id }}</td>
+
+                    <td>{{ food.name }}</td>
+
+                    <td>{{ food.quantity }}</td>
+
+                    <td>{{ food.pickup_time }}</td>
+
+                    <td>
+
+                        <a href="/seller/edit_food/{{ food.id }}"
+                           class="btn btn-warning btn-sm">
+                            編輯
+                        </a>
+
+                        <a href="/seller/delete_food/{{ food.id }}"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('確定刪除？')">
+                            刪除
+                        </a>
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %} 

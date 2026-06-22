@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-md-6">
+
+        <div class="card shadow">
+
+            <div class="card-body">
+
+                <h3 class="mb-4">
+                    設定地區
+                </h3>
+
+                <form method="POST">
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            縣市
+                        </label>
+
+                        <input
+                            type="text"
+                            name="city"
+                            class="form-control"
+                            value="{{ user.city or '' }}"
+                            placeholder="例如：高雄市"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            行政區
+                        </label>
+
+                        <input
+                            type="text"
+                            name="district"
+                            class="form-control"
+                            value="{{ user.district or '' }}"
+                            placeholder="例如：苓雅區"
+                            required
+                        >
+
+                    </div>
+
+                    <button
+                        class="btn btn-success w-100">
+                        儲存
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

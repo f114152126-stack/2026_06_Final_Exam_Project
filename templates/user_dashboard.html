@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h2>用戶首頁: {% if user.city %}{{ user.city }} {{ user.district }}{%else%}未設定地區{% endif %}</h2>
+
+    <div>
+        <a href="/user/my_reservations"
+           class="btn btn-primary">
+            我的預約
+        </a>
+        <a href="/user/my_comments"
+           class="btn btn-success">
+            我的評論
+        </a>
+
+    </div>
+
+</div>
+
+<div class="card shadow" style=" height: 60vh;">
+
+    <div class="card-body">
+
+        <h4 class="mb-3">
+            最新剩食資訊
+        </h4>
+
+        {% if foods %}
+
+            <table class="table table-hover">
+
+                <thead>
+
+                    <tr>
+                        <th>名稱</th>
+                        <th>數量</th>
+                        <th>領取時間</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for food in foods %}
+
+                    {% if food.quantity > 0 %}
+
+                        <tr>
+
+                            <td>{{ food.name }}</td>
+
+                            <td>{{ food.quantity }}</td>
+
+                            <td style="width: 250px;">{{ food.pickup_time }}</td>
+
+                            <td class="card-footer bg-white" style="width: 150px;">
+
+                                <a href="/user/reserve/{{ food.id }}"
+                                style="max-width: 130px;"
+                                class="btn btn-success w-100">
+                                    預約領取
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                    {% endif %}
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        {% else %}
+        
+            {% if user.city %}
+                <p>目前沒有可領取剩食。</p>
+            {% else %}
+                <p>請先設定地區以查看剩食資訊。</p>
+            {% endif %}
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% if promotions %}
+
+<div class="card shadow mb-4" style="margin-top: 20px;">
+
+    <div class="card-body">
+
+        <h4 class="mb-3">
+            📢 最新活動
+        </h4>
+        
+        <div class="activity-scroll" style="max-height:40vh; overflow-y:auto;">
+
+            {% for p in promotions %}
+
+            <div class="border rounded p-3 mb-3">
+
+                <div class="d-flex justify-content-between">
+
+                    <h5 class="mb-2">
+                        {{ p.title }}
+                    </h5>
+
+                    <span style="max-width: 100px; pointer-events: none;" class="btn btn-success w-100">
+                        活動中
+                    </span>
+
+                </div>
+
+                <p class="mb-2">
+                    {{ p.content }}
+                </p>
+
+                <small class="text-muted">
+
+                    活動期間：
+
+                    {{ p.start_date.strftime("%Y-%m-%d %H:%M") }}
+
+                    ~
+
+                    {{ p.end_date.strftime("%Y-%m-%d %H:%M") }}
+
+                </small>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endif %}
+
+{% endblock %}
